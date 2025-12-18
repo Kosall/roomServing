@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -45,10 +45,10 @@ public class RoomController {
 	@GetMapping("/{roomId}")
 	@Operation(summary = "Get room by ID", parameters = @Parameter(in = ParameterIn.PATH, name = "roomId"))
 	public Mono<RoomDTO> getRoomById(@PathVariable String roomId){
-		return roomService.getRoomById(roomId);
+		return roomService.getById(roomId);
 	}
 	
-	@PutMapping("/{roomId}")
+	@PatchMapping("/{roomId}")
 	public Mono<RoomDTO> updateRoom(@PathVariable String roomId, @RequestBody RoomDTO roomDTO){
 		
 		return roomService.updateRoom(roomId, roomDTO);

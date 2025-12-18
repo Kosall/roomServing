@@ -33,7 +33,7 @@ public class RoomServiceImpl implements RoomService{
 	
 	@Override
 	public Mono<RoomDTO> createRoom(RoomDTO roomDTO) {
-		log.debug("Saving room to DB: {}", roomDTO);
+		log.info("Saving room to DB: {}", roomDTO);
 		
 		Room room = roomMapper.toRoom(roomDTO);
 		
@@ -106,6 +106,16 @@ public class RoomServiceImpl implements RoomService{
 				return new PageDTO<>(filterDTO.getPage(), filterDTO.getSize(),total,totalPages, content);
 			});
 		
+	}
+
+	@Override
+	public Mono<RoomDTO> getById( final String id) {
+		// TODO Auto-generated method stub
+		return roomRepository.findById(id)
+				.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
+				.map(roomMapper::toRoomDTO)
+				.doOnSuccess(r->log.info("Pathed room id: {}",id))
+				.doOnError(ex->log.info("Fail to get room {}",ex.getMessage(),ex));
 	}
 
 	

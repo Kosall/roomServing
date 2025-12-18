@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.poi.util.StringUtil;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 
@@ -28,6 +30,19 @@ public static Criteria build(RoomFilterDTO filter) {
 
         if (Objects.nonNull(filter.getFloor())) {
             criterias.add(Criteria.where(FIELD_FLOOR).is(filter.getFloor()));
+        }
+        //address filter
+        if(StringUtil.isNotBlank(filter.getProvinceCode())) {
+        	criterias.add(Criteria.where("address.provinceCode").is(filter.getProvinceCode()));
+        }
+        if(StringUtil.isNotBlank(filter.getDistrictCode())) {
+        	criterias.add(Criteria.where("address.districtCode").is(filter.getDistrictCode()));
+        }
+        if(StringUtil.isNotBlank(filter.getProvinceCode())) {
+        	criterias.add(Criteria.where("address.communeCode").is(filter.getCommuneCode()));
+        }
+        if(StringUtil.isNotBlank(filter.getProvinceCode())) {
+        	criterias.add(Criteria.where("address.villageCode").is(filter.getVillageCode()));
         }
 
         if (Objects.nonNull(filter.getRoomSizeMin()) || Objects.nonNull(filter.getRoomSizeMax())) {

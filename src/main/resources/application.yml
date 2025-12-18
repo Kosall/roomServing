@@ -1,3 +1,5 @@
+server:
+  port: 8057
 spring:
   application:
     name: room-service		
@@ -8,13 +10,27 @@ spring:
       database: room
       username: root
       password: root
-      authentication-database: admin				
+      authentication-database: admin
+  kafka:
+      bootstrap-servers: localhost:9092
+      consumer:
+        #group-id: visitor-room-projection
+        group-id: visitor-room-projection-2
+        auto-offset-reset: earliest # (start from beginning)
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        enable-auto-commit: false
+        properties:
+          spring.json.trusted.packages: "com.piseth.java.school.*"
+          spring.json.use.type.headers: false
+#          TypeId: com.piseth.java.school.roomservice.message.event.RoomEventEnvelope
+          spring.json.value.default.type: com.piseth.java.school.roomservice.messaging.event.RoomEventEnvelope
+        max-poll-records: 100				
 logging:
   level:
     root: INFO
-    com.piseth.java.school: DEBUG		
-room:
-  seed:
-    enabled: true
-server:
-  port: 8057
+    com.piseth.java.school: DEBUG
+app:
+  messaging:
+     topics:
+        roomEvents: room.events.v1
