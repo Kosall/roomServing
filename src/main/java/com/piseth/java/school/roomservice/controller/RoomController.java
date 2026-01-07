@@ -45,7 +45,7 @@ public class RoomController {
 	@GetMapping("/{roomId}")
 	@Operation(summary = "Get room by ID", parameters = @Parameter(in = ParameterIn.PATH, name = "roomId"))
 	public Mono<RoomDTO> getRoomById(@PathVariable String roomId){
-		return roomService.getById(roomId);
+		return roomService.getRoomById(roomId);
 	}
 	
 	@PatchMapping("/{roomId}")

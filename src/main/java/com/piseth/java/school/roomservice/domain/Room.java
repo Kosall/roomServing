@@ -20,68 +20,70 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Document("visitor_rooms")
-@CompoundIndexes({ @CompoundIndex(name = "idx_status_availableFrom", def = "{'status': 1, 'availableFrom': 1}"),
-		@CompoundIndex(name = "idx_addr_province_district", def = "{'address.provinceCode': 1, 'address.districtCode': 1}") })
+@CompoundIndexes({
+    @CompoundIndex(name = "idx_status_availableFrom", def = "{'status': 1, 'availableFrom': 1}"),
+    @CompoundIndex(name = "idx_addr_province_district", def = "{'address.provinceCode': 1, 'address.districtCode': 1}")
+})
 public class Room {
+	
+  @Id
+  private String id; // same as Room aggregate id
 
-	@Id
-	private String id; // same as Room aggregate id
+  private String ownerId;
+  private String name;
+  private String description;
+  private Double price;
+  private String currencyCode;
+  private Integer floor;
+  private Double roomSize;
+  private String roomType;
+  private String propertyType;
 
-	private String ownerId;
-	private String name;
-	private String description;
-	private Double price;
-	private String currencyCode;
-	private Integer floor;
-	private Double roomSize;
-	private String roomType;
-	private String propertyType;
+  private Address address;
 
-	private Address address;
+  private Boolean hasFan;
+  private Boolean hasAirConditioner;
+  private Boolean hasParking;
+  private Boolean hasPrivateBathroom;
+  private Boolean hasBalcony;
+  private Boolean hasKitchen;
+  private Boolean hasFridge;
+  private Boolean hasWashingMachine;
+  private Boolean hasTV;
+  private Boolean hasWiFi;
+  private Boolean hasElevator;
 
-	private Boolean hasFan;
-	private Boolean hasAirConditioner;
-	private Boolean hasParking;
-	private Boolean hasPrivateBathroom;
-	private Boolean hasBalcony;
-	private Boolean hasKitchen;
-	private Boolean hasFridge;
-	private Boolean hasWashingMachine;
-	private Boolean hasTV;
-	private Boolean hasWiFi;
-	private Boolean hasElevator;
+  private Integer maxOccupants;
+  private Boolean isPetFriendly;
+  private Boolean isSmokingAllowed;
+  private Boolean isSharedRoom;
+  private String genderPreference;
 
-	private Integer maxOccupants;
-	private Boolean isPetFriendly;
-	private Boolean isSmokingAllowed;
-	private Boolean isSharedRoom;
-	private String genderPreference;
+  private Double distanceToCenter;
+  private List<String> nearbyLandmarks;
+  private Boolean isUtilityIncluded;
+  private Boolean depositRequired;
+  private Double depositAmount;
+  private Integer minStayMonths;
+  private String contactPhone;
 
-	private Double distanceToCenter;
-	private List<String> nearbyLandmarks;
-	private Boolean isUtilityIncluded;
-	private Boolean depositRequired;
-	private Double depositAmount;
-	private Integer minStayMonths;
-	private String contactPhone;
+  private List<String> photoUrls;
+  private String videoUrl;
+  private Boolean verifiedListing;
 
-	private List<String> photoUrls;
-	private String videoUrl;
-	private Boolean verifiedListing;
+  private String status;
+  private LocalDateTime availableFrom;
+  private LocalDateTime availableTo;
 
-	private String status;
-	private LocalDateTime availableFrom;
-	private LocalDateTime availableTo;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
+  private String createdBy;
+  private String updatedBy;
 
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
-	private String createdBy;
-	private String updatedBy;
+  private Map<String, Object> extraAttributes;
 
-	private Map<String, Object> extraAttributes;
-
-	@Indexed
-	private LocalDateTime lastEventAt;
-	private boolean deleted; // soft delete
+  @Indexed
+  private LocalDateTime lastEventAt;
+  private boolean deleted; // soft delete 
 
 }

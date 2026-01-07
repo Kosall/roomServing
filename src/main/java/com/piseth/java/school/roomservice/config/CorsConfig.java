@@ -12,6 +12,7 @@ public class CorsConfig {
 	CorsWebFilter corsWebFilter() {
 		CorsConfiguration configuration=new CorsConfiguration();
 		configuration.addAllowedOrigin("http://localhost:4200/");
+		configuration.addAllowedOrigin("http://localhost:4201/");
 		UrlBasedCorsConfigurationSource sourcing=new UrlBasedCorsConfigurationSource();
 		sourcing.registerCorsConfiguration("/api/**", configuration);
 		return new CorsWebFilter(sourcing);

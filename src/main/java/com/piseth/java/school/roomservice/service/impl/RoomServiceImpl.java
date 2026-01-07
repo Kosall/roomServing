@@ -45,7 +45,7 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public Mono<RoomDTO> getRoomById(String id) {
-		log.debug("Retreiving room with ID: {}", id);
+		log.info("Retreiving room with ID: {}", id);
 		return roomRepository.findById(id)
 				.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
 				.doOnNext(room -> log.info("Room received : {}", room))
@@ -108,15 +108,15 @@ public class RoomServiceImpl implements RoomService{
 		
 	}
 
-	@Override
-	public Mono<RoomDTO> getById( final String id) {
-		// TODO Auto-generated method stub
-		return roomRepository.findById(id)
-				.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
-				.map(roomMapper::toRoomDTO)
-				.doOnSuccess(r->log.info("Pathed room id: {}",id))
-				.doOnError(ex->log.info("Fail to get room {}",ex.getMessage(),ex));
-	}
+//	@Override
+//	public Mono<RoomDTO> getById( final String id) {
+//		log.info("Retreiving room with ID: {}", id);
+//		return roomRepository.findById(id)
+//				.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
+//				.doOnNext(room->log.info("Room received by id:{}",id))
+//				.map(roomMapper::toRoomDTO);
+//				
+//	}
 
 	
 
