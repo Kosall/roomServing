@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.piseth.java.school.roomservice.domain.Room;
 import com.piseth.java.school.roomservice.dto.PageDTO;
 import com.piseth.java.school.roomservice.dto.RoomDTO;
 import com.piseth.java.school.roomservice.dto.RoomFilterDTO;
@@ -31,17 +30,17 @@ public class RoomServiceImpl implements RoomService{
 	private final RoomMapper roomMapper;
 	private final RoomCustomRepository roomCustomRepository;
 	
-	@Override
-	public Mono<RoomDTO> createRoom(RoomDTO roomDTO) {
-		log.info("Saving room to DB: {}", roomDTO);
-		
-		Room room = roomMapper.toRoom(roomDTO);
-		
-		return roomRepository.save(room)
-			.doOnSuccess(saved -> log.info("Room saved: {}",saved))
-			.map(roomMapper::toRoomDTO);
-		 
-	}
+//	@Override
+//	public Mono<RoomDTO> createRoom(RoomDTO roomDTO) {
+//		log.info("Saving room to DB: {}", roomDTO);
+//		
+//		Room room = roomMapper.toRoom(roomDTO);
+//		
+//		return roomRepository.save(room)
+//			.doOnSuccess(saved -> log.info("Room saved: {}",saved))
+//			.map(roomMapper::toRoomDTO);
+//		 
+//	}
 
 	@Override
 	public Mono<RoomDTO> getRoomById(String id) {
@@ -53,35 +52,35 @@ public class RoomServiceImpl implements RoomService{
 				
 	}
 
-	@Override
-	public Mono<RoomDTO> updateRoom(String id, RoomDTO roomDTO) {
-		log.debug("Updating romm id: {} with data : {}", id, roomDTO);
-		
-		  return roomRepository.findById(id)
-				  	.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
-					.flatMap(existing ->{
-						roomMapper.updateRoomFromDTO(roomDTO, existing);
-						return roomRepository.save(existing);
-					})
-					.map(roomMapper::toRoomDTO);
-		
-	}
+//	@Override
+//	public Mono<RoomDTO> updateRoom(String id, RoomDTO roomDTO) {
+//		log.debug("Updating romm id: {} with data : {}", id, roomDTO);
+//		
+//		  return roomRepository.findById(id)
+//				  	.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
+//					.flatMap(existing ->{
+//						roomMapper.updateRoomFromDTO(roomDTO, existing);
+//						return roomRepository.save(existing);
+//					})
+//					.map(roomMapper::toRoomDTO);
+//		
+//	}
 
-	@Override
-	public Mono<Void> deleteRoom(String id) {
-		log.info("Deleting room with ID: {}",id);
-		return roomRepository.deleteById(id)
-				.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
-				.doOnSuccess(deleted -> log.info("Room deleted with ID: {}",id));
-	}
+//	@Override
+//	public Mono<Void> deleteRoom(String id) {
+//		log.info("Deleting room with ID: {}",id);
+//		return roomRepository.deleteById(id)
+//				.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
+//				.doOnSuccess(deleted -> log.info("Room deleted with ID: {}",id));
+//	}
 
-	@Override
-	public Flux<RoomDTO> getRoomByFilter(RoomFilterDTO filterDTO) {
-		Criteria criteria = RoomCriteriaBuilder.build(filterDTO);
-		
-		return roomCustomRepository.findByFilter(new Query(criteria))
-				.map(roomMapper::toRoomDTO);
-	}
+//	@Override
+//	public Flux<RoomDTO> getRoomByFilter(RoomFilterDTO filterDTO) {
+//		Criteria criteria = RoomCriteriaBuilder.build(filterDTO);
+//		
+//		return roomCustomRepository.findByFilter(new Query(criteria))
+//				.map(roomMapper::toRoomDTO);
+//	}
 
 	@Override
 	public Mono<PageDTO<RoomDTO>> getRoomByFilterPagination(RoomFilterDTO filterDTO) {
@@ -108,15 +107,15 @@ public class RoomServiceImpl implements RoomService{
 		
 	}
 
-//	@Override
-//	public Mono<RoomDTO> getById( final String id) {
-//		log.info("Retreiving room with ID: {}", id);
-//		return roomRepository.findById(id)
-//				.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
-//				.doOnNext(room->log.info("Room received by id:{}",id))
-//				.map(roomMapper::toRoomDTO);
-//				
-//	}
+	@Override
+	public Flux<RoomDTO> getRoomsByIds(List<String> ids) {
+	    if (ids == null || ids.isEmpty()) {
+	        return Flux.empty();
+	    }
+
+	    return roomRepository.findAllById(ids)
+	            .map(roomMapper::toRoomDTO);
+	}
 
 	
 
