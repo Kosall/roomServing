@@ -68,5 +68,5 @@ public class RoomDTO {
     private String updatedBy;
 
     private Map<String, Object> extraAttributes;
-
+    private Double distanceMeters;
 }

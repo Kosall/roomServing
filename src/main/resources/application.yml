@@ -34,3 +34,5 @@ app:
   messaging:
      topics:
         roomEvents: room.events.v1
+storage:
+  publicBaseUrl: http://localhost:9000
